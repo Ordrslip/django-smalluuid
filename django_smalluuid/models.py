@@ -48,6 +48,8 @@ class SmallUUIDField(UUIDField):
             try:
                 if isinstance(value, six.string_types) and len(value) > 30:
                     return self.uuid_class(hex=value)
+                elif isinstance(value, uuid.UUID):
+                    return self.uuid_class(bytes=value.bytes)
                 else:
                     return self.uuid_class(small=value)
             except ValueError:

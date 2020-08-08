@@ -1,3 +1,5 @@
+import uuid
+
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.db import connection
@@ -38,6 +40,11 @@ class ModelFieldTestCase(TestCase):
         field = models.SmallUUIDField(uuid_class='smalluuid.TypedSmallUUID')
         out = field.to_python('IBNApQOzTHGzdjkSt6t-Jg')
         self.assertIsInstance(out, TypedSmallUUID)
+
+    def test_to_python_uuid(self):
+        field = models.SmallUUIDField()
+        out = field.to_python(uuid.UUID('201340a503b34c71b3763912b7ab7e26'))
+        self.assertIsInstance(out, SmallUUID)
 
     def test_prep(self):
         field = models.SmallUUIDField()
